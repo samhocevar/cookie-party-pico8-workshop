@@ -101,28 +101,28 @@ function _update()
 
 	
 	-- move bullets
-	foreach(bullets, function(b)
+	for n in all(bullets) do
 		b.x+=b.vx
 		b.y+=b.vy
 		if b.y>140 or b.y<-20 or b.x>140 or b.x<-20 then
 			del(bullets,b)
 		end
-	end)
+	end
 
 	-- hit enemies
-	foreach(enemies, function(e)
-		foreach(bullets, function(b)
+	for e in all(enemies) do
+		for b in all (bullets) do
 			local d = distance(e,b)
 			if e.death<0 and d<5 then
 				e.hp-=23+rnd(15)
 				e.flicker=6
 				del(bullets, b)
 			end
-		end)
-	end)
+		end
+	end
 
 	-- move enemies
-	foreach(enemies, function(e)
+	for e in all(enemies) do
 		if e.death>=10 then
 			del(enemies, e)
 		elseif e.death>=0 then
@@ -149,7 +149,7 @@ function _update()
 		if e.flicker>0 then
 			e.flicker-=1
 		end
-	end)
+	end
 
 	player.vy*=0.8	
 	--player.vy=max(-3, min(3, player.vy))
@@ -212,7 +212,7 @@ function _draw()
 	
 	line(8,0,8,128,1)
 	
-	foreach(enemies, function(e)
+	for e in all(enemies) do
 		if e.death<0 then
 			if e.flicker%2==1 then
 				pal(5,7)
@@ -224,11 +224,11 @@ function _draw()
 				circfill(e.x-rnd(8),e.y-rnd(8),e.death, 8+j%3)
 			end
 		end
-	end)
+	end
 	
-	foreach(bullets, function(b)
+	for b in all(bullets) do
 		line(b.x, b.y, b.x+b.vx, b.y+b.vy, 8)
-	end)
+	end
 	
 	spr(player.sprite,player.x-3.5,player.y-3.5)
 	--circfill(player.x,player.y,player.s, 8)
